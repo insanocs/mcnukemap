@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Ancap
 // @version      3.2
-// @description  PixelCanvas.io minimap for everyone
-// @author       Some Anon
+// @description  Ancapixel/Anti-Communist minimap
+// @author       nisano
 // @match        https://pixelcanvas.io/*
 // @match        http://pixelcanvas.io/*
 // @grant        none
@@ -14,7 +14,7 @@
  
  
 //window.baseTepmlateUrl = 'https://raw.githubusercontent.com/LowQuality/Minimap/master';
-window.baseTepmlateUrl = '?';
+window.baseTepmlateUrl = 'https://github.com/insanocs/mcnukemap/edit/master/';
  
  
 cssStyle = `
