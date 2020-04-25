@@ -1,29 +1,29 @@
 // ==UserScript==
-// @name         Ancap
-// @version      3.2
-// @description  Ancapixel/Anti-Communist minimap
-// @author       nisano
+// @name         AntiCommie map
+// @version      1.0
+// @description  PixelCanvas.io minimap for Ancapixel/Anti-commies, do your duty!
+// @author       nisano and !Asuma
 // @match        https://pixelcanvas.io/*
 // @match        http://pixelcanvas.io/*
 // @grant        none
 // ==/UserScript==
- 
+
 //ref:https://stackoverflow.com/questions/4604663/download-single-files-from-github
 //github raw file url  template
 //https://raw.githubusercontent.com/user/repository/branch/filename
- 
- 
+
+
 //window.baseTepmlateUrl = 'https://raw.githubusercontent.com/LowQuality/Minimap/master';
 window.baseTepmlateUrl = 'https://raw.githubusercontent.com/insanocs/mcnukemap/master';
- 
- 
+
+
 cssStyle = `
 #minimapbg {
   position: absolute;
   right: 1em;
   bottom: 1em;
 }
- 
+
 #posyt {
   background-color: rgba(0, 0, 0, 0.60);
   color: rgb(250, 250, 250);
@@ -36,17 +36,17 @@ cssStyle = `
   right: 3px;
   left: 3px;
 }
- 
+
 #minimap-text {
   display: none;
 }
- 
+
 #minimap-box {
   position: relative;
   width:420px;
   height:250px;
 }
- 
+
 #minimap, #minimap-board, #minimap-cursor {
   width: 100%;
   height: 100%;
@@ -54,58 +54,58 @@ cssStyle = `
   top:0;
   left:0;
 }
- 
+
 #minimap {
   z-index:1;
 }
- 
+
 #minimap-board {
   z-index:2;
 }
- 
+
 #minimap-cursor {
   z-index:3;
 }
- 
+
 #minimap-config {
   line-height: 20px;
   padding: 3px;
   background-color:rgba(0,0,0,0.75);
 }
- 
+
 .map-clickable {
   cursor: pointer;
 }
- 
+
 .map-zoom {
   font-weight:bold;
 }
- 
+
 #colors {
   margin-left: 0.333em !important;
 }
- 
+
 #app > div:nth-child(1) > div:nth-child(9) {
   position: absolute;
   bottom: 6em;
   left: 0.3333em;
- 
+
 }
- 
+
 #app > div:nth-child(1) > div:nth-child(9) > div:nth-child(2) {
   bottom: initial !important;
   left: initial !important;
   position: initial !important;
   display: inline-block !important;
 }
- 
+
 #app > div:nth-child(1) > div:nth-child(9) > div:nth-child(1) {
   bottom: initial !important;
   left: initial !important;
   position: initial !important;
   display: inline-block !important;
 }`;
- 
+
 htmlFragment = `
 <div id="minimapbg">
   <div class="posy" id="posyt">
@@ -129,7 +129,7 @@ htmlFragment = `
     </div>
   </div>
 </div>`;
- 
+
 window.addEventListener('load', function() {
   // Regular Expression to get coordinates out of URL
   re = /(.*)@(.*),(.*)/g;
@@ -152,7 +152,7 @@ window.addEventListener('load', function() {
   toggle_show = true;
   toggle_follow = true; //if minimap is following window, x_window = x and y_window = y;
   toggle_grid = true;
- 
+
   zoom_state = 0;
   zoom_time = 100;
   // array with all loaded template-images
@@ -162,16 +162,16 @@ window.addEventListener('load', function() {
   needed_templates = null;
   // Cachebreaker to force refresh
   cachebreaker = null;
- 
+
   // Set style
   addGlobalStyle(cssStyle);
- 
+
   // Add minimap
   var div = document.createElement('div');
   div.setAttribute('class', 'post block bc2');
   div.innerHTML = htmlFragment;
   document.body.appendChild(div);
- 
+
   // Setup canvas
   minimap = document.getElementById("minimap");
   minimap_board = document.getElementById("minimap-board");
@@ -185,21 +185,21 @@ window.addEventListener('load', function() {
   ctx_minimap = minimap.getContext("2d");
   ctx_minimap_board = minimap_board.getContext("2d");
   ctx_minimap_cursor = minimap_cursor.getContext("2d");
- 
+
   // No Antialiasing when scaling!
   ctx_minimap.mozImageSmoothingEnabled = false;
   ctx_minimap.webkitImageSmoothingEnabled = false;
   ctx_minimap.msImageSmoothingEnabled = false;
   ctx_minimap.imageSmoothingEnabled = false;
- 
+
   ctx_minimap_board.mozImageSmoothingEnabled = false;
   ctx_minimap_board.webkitImageSmoothingEnabled = false;
   ctx_minimap_board.msImageSmoothingEnabled = false;
   ctx_minimap_board.imageSmoothingEnabled = false;
- 
+
   drawBoard();
   drawCursor();
- 
+
   // Setup events
   document.getElementById("hide-map").onclick = function(){
     console.log("This should do something, but it doesn't");
@@ -210,7 +210,7 @@ window.addEventListener('load', function() {
     document.getElementById("minimap-text").innerHTML = "Show Minimap";
     document.getElementById("minimap-text").style.cursor = "pointer";
   };
- 
+
   document.getElementById("minimap-text").onclick = function(){
     toggle_show = true;
     document.getElementById("minimap-box").style.display = "block";
@@ -219,7 +219,7 @@ window.addEventListener('load', function() {
     document.getElementById("minimap-text").style.cursor = "default";
     loadTemplates();
   };
- 
+
   document.getElementById("zoom-plus").addEventListener('mousedown', function(e){
     e.preventDefault();
     zoom_state = +1;
@@ -232,7 +232,7 @@ window.addEventListener('load', function() {
   }, false);
   document.getElementById("zoom-plus").addEventListener('mouseup', function(e){ zoom_state = 0;}, false);
   document.getElementById("zoom-minus").addEventListener('mouseup', function(e){ zoom_state = 0;}, false);
- 
+
   document.getElementById("follow-mouse").onclick = function(){
     toggle_follow = !toggle_follow;
     if(toggle_follow){
@@ -246,19 +246,19 @@ window.addEventListener('load', function() {
       getCenter();
     }
   };
- 
+
   document.getElementById("toggle-grid").onclick = function(){
     toggle_grid = !toggle_grid;
     drawBoard();
   };
- 
+
   gameWindow.addEventListener('mouseup',function(evt){
     if(!toggle_show)
       return;
     if(!toggle_follow)
       setTimeout(getCenter, 100);
   },false);
- 
+
   gameWindow.addEventListener('mousemove',function(evt){
     if(!toggle_show)
       return;
@@ -278,7 +278,7 @@ window.addEventListener('load', function() {
   },false);
   updateloop();
 }, false);
- 
+
 function addGlobalStyle(css) {
   var head, style;
   head = document.getElementsByTagName('head')[0];
@@ -288,12 +288,12 @@ function addGlobalStyle(css) {
   style.innerHTML = css;
   head.appendChild(style);
 }
- 
+
 function updateloop(){
   console.log("Updating Template List");
   // Get JSON of available templates
   var xmlhttp = new XMLHttpRequest();
-  var url = window.baseTepmlateUrl + "/api/api.json";
+  var url = window.baseTepmlateUrl + "/templates/data.json";
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       template_list = JSON.parse(this.responseText);
@@ -303,13 +303,13 @@ function updateloop(){
   };
   xmlhttp.open("GET", url, true);
   xmlhttp.send();
- 
+
   image_list = [];
   loadTemplates();
- 
+
   setTimeout(updateloop, 600000);
 }
- 
+
 function toggleShow(){
   toggle_show = !toggle_show;
   if (toggle_show){
@@ -326,39 +326,39 @@ function toggleShow(){
     document.getElementById("minimapbg").onclick = function(){toggleShow();};
   }
 }
- 
+
 function clampZoom(zoom) {
   return Math.min(45, Math.max(1,zoom));
 }
- 
+
 function zoom() {
   if(!zoom_state)
     return;
- 
+
   zoomlevel = clampZoom(zoomlevel * Math.pow(1.1, zoom_state));
- 
+
   drawBoard();
   drawCursor();
   loadTemplates();
   setTimeout(zoom, zoom_time);
 }
- 
- 
+
+
 function loadTemplates(){
   if(!toggle_show)
     return;
   if(template_list == null)
     return;
- 
+
   var x_left   = x_window*1 - minimap.width  / zoomlevel / 2;
   var x_right  = x_window*1 + minimap.width  / zoomlevel / 2;
   var y_top    = y_window*1 - minimap.height / zoomlevel / 2;
   var y_bottom = y_window*1 + minimap.height / zoomlevel / 2;
- 
+
   var keys = [];
   for(var k in template_list) keys.push(k);
   needed_templates = [];
- 
+
   for(var i = 0; i < keys.length; i++) {
     template = keys[i];
     var temp_x  = template_list[template]["x"]*1;
@@ -370,7 +370,7 @@ function loadTemplates(){
     //console.log(" Template " + template + " is in range!");
     needed_templates.push(template);
   }
- 
+
   if(needed_templates.length == 0){
     if(zoom_state == false){
       document.getElementById("minimap-box").style.display = "none";
@@ -383,7 +383,7 @@ function loadTemplates(){
       document.getElementById("minimap-config").style.display = "block";
     document.getElementById("minimap-text").style.display = "none";
     counter = 0;
- 
+
     for(var i = 0; i < needed_templates.length; i++){
       if(image_list[needed_templates[i]] == null){
         loadImage(needed_templates[i]);
@@ -396,14 +396,14 @@ function loadTemplates(){
     }
   }
 }
- 
+
 function loadImage(imagename){
   console.log("    Load image " + imagename);
   image_list[imagename] = new Image();
   if(cachebreaker != null)
-    image_list[imagename].src = window.baseTepmlateUrl + "/_templates/" + template_list[imagename].name;
+    image_list[imagename].src = window.baseTepmlateUrl + "/images/" + template_list[imagename].name;
   else
-    image_list[imagename].src = window.baseTepmlateUrl + "/_templates/" + template_list[imagename].name;
+    image_list[imagename].src = window.baseTepmlateUrl + "/images/" + template_list[imagename].name;
   image_list[imagename].onload = function() {
     counter += 1;
     // if last needed image loaded, start drawing
@@ -411,7 +411,7 @@ function loadImage(imagename){
       drawTemplates();
   };
 }
- 
+
 function drawTemplates(){
   ctx_minimap.clearRect(0,0,minimap.width,minimap.height);
   var x_left = x_window*1 - minimap.width / zoomlevel / 2;
@@ -427,32 +427,32 @@ function drawTemplates(){
     ctx_minimap.drawImage(img, xoff, yoff, newwidth, newheight);
   }
 }
- 
+
 function drawBoard(){
   ctx_minimap_board.clearRect(0,0,minimap_board.width,minimap_board.height);
- 
+
   if (zoomlevel <= 4.6 || !toggle_grid)
     return;
- 
+
   ctx_minimap_board.beginPath();
   var bw = minimap_board.width + zoomlevel;
   var bh = minimap_board.height + zoomlevel;
   var xoff_m = (minimap.width / 2) % zoomlevel - zoomlevel;
   var yoff_m = (minimap.height / 2) % zoomlevel - zoomlevel;
   var z = zoomlevel;
- 
+
   ctx_minimap_board.fillStyle = "rgba(0,0,0,0.75)";
- 
+
   for (var x = 0; x <= bw; x += z) {
     ctx_minimap_board.fillRect(x +  xoff_m, yoff_m, 1, bh);
   }
- 
+
   for (var y = 0; y <= bh; y += z) {
     ctx_minimap_board.fillRect(xoff_m, y + yoff_m, bw, 1);
   }
 }
- 
- 
+
+
 function drawCursor(){
   var x_left = x_window*1 - minimap.width / zoomlevel / 2;
   var x_right = x_window*1 + minimap.width / zoomlevel / 2;
@@ -463,15 +463,15 @@ function drawCursor(){
     return;
   xoff_c = x - x_left;
   yoff_c = y - y_top;
- 
+
   ctx_minimap_cursor.beginPath();
   ctx_minimap_cursor.lineWidth = Math.min(4, zoomlevel / 3);
   ctx_minimap_cursor.strokeStyle = "red";
   ctx_minimap_cursor.rect(zoomlevel * xoff_c, zoomlevel * yoff_c, zoomlevel, zoomlevel);
   ctx_minimap_cursor.stroke();
- 
+
 }
- 
+
 function getCenter(){
   var url = window.location.href;
   x_window = url.replace(re, '$2');
@@ -482,7 +482,7 @@ function getCenter(){
   }
   loadTemplates();
 }
- 
+
 function findCoor(){
   //all elements with style attributes
   var elms = document.querySelectorAll("*[style]");
