@@ -14,7 +14,7 @@
  
  
 //window.baseTepmlateUrl = 'https://raw.githubusercontent.com/LowQuality/Minimap/master';
-window.baseTepmlateUrl = 'https://github.com/insanocs/mcnukemap/master/';
+window.baseTepmlateUrl = 'https://raw.githubusercontent.com/insanocs/mcnukemap/master';
  
  
 cssStyle = `
