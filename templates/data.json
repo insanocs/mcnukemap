@@ -1,1 +1,23 @@
-
+{
+    "Pinochet": {
+      "name": "pinochet.png",
+      "x": -715,
+      "y": -697,
+      "width": 44,
+      "height": 73
+    },
+    "AncapFlag": {
+      "name": "ancapflag.png",
+      "x": -671,
+      "y": -689,
+      "width": 431,
+      "height": 222
+    },
+    "BRAncaPort": {
+      "name": "brancap.png",
+      "x": -234,
+      "y": -633,
+      "width": 81,
+      "height": 151
+    }
+}
