@@ -26,6 +26,26 @@
         "y": -1049,
         "width": 338,
         "height": 292
-      }    
+    },
+      "Mario": {
+        "name": "mario.png",
+        "x": -235,
+        "y": -689,
+        "width": 115,
+        "height": 56
+    },
+    "Listras": {
+        "name": "listras.png",
+        "x": -240,
+        "y": -689,
+        "width": 103,
+        "height": 225
+    },
+    "Hoppe": {
+        "name": "hoppe.png"
+        "x": -423,
+        "y": -740
+        "width": 302,
+        "height": 52
+    }
 }
-    
