@@ -19,5 +19,13 @@
       "y": -633,
       "width": 81,
       "height": 151
-    }
+    },
+    "Vaticano": {
+        "name": "vaticano.png",
+        "x": -121,
+        "y": -1049,
+        "width": 338,
+        "height": 292
+      }    
 }
+    
