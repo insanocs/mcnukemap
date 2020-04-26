@@ -35,17 +35,31 @@
         "height": 56
     },
     "Listras": {
-        "name": "listras.png",
-        "x": -240,
-        "y": -689,
-        "width": 103,
-        "height": 225
+      "name": "listras.png",
+      "x": -240,
+      "y": -689,
+      "width": 103,
+      "height": 225
     },
-    "Hoppe": {
-        "name": "hoppe.png",
-        "x": -423,
-        "y": -740,
-        "width": 302,
-        "height": 52
-    }
+    "PixelBritain": {
+      "name": "brit.png",
+      "x": -136,
+      "y": -509,
+      "width": 75,
+      "height": 75
+    },
+    "TrapPixel": {
+      "name": "trap.png",
+      "x": -149,
+      "y": -628,
+      "width": 91,
+      "height": 91
+    },
+    "McNuke": {
+      "name": "mcnuke.png",
+      "x": -73,
+      "y": -433,
+      "width": 214,
+      "height": 174
+  }
 }
