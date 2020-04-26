@@ -1,17 +1,10 @@
 {
-    "Pinochet": {
-      "name": "pinochet.png",
+    "FullAncap": {
+      "name": "fullancap.png",
       "x": -715,
       "y": -697,
-      "width": 44,
-      "height": 73
-    },
-    "AncapFlag": {
-      "name": "ancapflag.png",
-      "x": -671,
-      "y": -689,
-      "width": 431,
-      "height": 222
+      "width": 476,
+      "height": 451
     },
     "BRAncaPort": {
       "name": "brancap.png",
